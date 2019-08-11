@@ -26,17 +26,6 @@ PLUGIN FILE
 <URL>&gitURL;/archive/&name;-&version;.txz</URL>
 </FILE>
 
-<!--
-PRE-INSTALL SCRIPT
--->
-<FILE Run="/bin/bash">
-<INLINE>
-# Cleaning old source files
-find /boot/config/plugins/&name;/ -type f -iname "&name;*.txz" ! -iname "*&version;*" -delete
-find /boot/config/plugins/&name;/ -type f -iname "&name;*.md5" ! -iname "*&version;*" -delete
-</INLINE>
-</FILE>
-
 <!-- 
 SOURCE PACKAGE 
 -->
@@ -49,6 +38,10 @@ POST-INSTALL SCRIPT
 -->
 <FILE Run="/bin/bash">
 <INLINE>
+chmod 755 /etc/rc.d/rc.qemu-ga
+chmod +x /etc/rc.d/rc.qemu-ga
+/etc/rc.d/rc.qemu-ga start
+
 echo ""
 echo "-----------------------------------------------------------"
 echo " &name; has been installed."
