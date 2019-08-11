@@ -7,6 +7,7 @@
 <!ENTITY version   "2019.08.09">
 <!ENTITY gitURL    "https://raw.githubusercontent.com/&author;/&repo;/master">
 <!ENTITY pluginURL "&gitURL;/plugins/&name;.plg">
+<!ENTITY source    "/boot/config/plugins/&name;/&name;-&version;">"
 ]>
 
 <PLUGIN name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;">
@@ -19,36 +20,17 @@
 </CHANGES>
 
 <!--
-The 'plugin' package file.
+PLUGIN FILE
 -->
 <FILE Name="/boot/config/plugins/&name;/&name;-&version;.txz">
 <URL>&gitURL;/archive/&name;-&version;.txz</URL>
 </FILE>
 
 <!--
-The 'plugin' package MD5 hash.
--->
-<FILE Name="/boot/config/plugins/&name;/&name;-&version;.md5">
-<URL>&gitURL;/archive/&name;-&version;.md5</URL>
-</FILE>
-
-<!--
-The 'post-install' script.
+PRE-INSTALL SCRIPT
 -->
 <FILE Run="/bin/bash">
 <INLINE>
-# Verify and install plugin package
-sum1=$(/usr/bin/md5sum /boot/config/plugins/&name;/&name;-&version;.txz)
-sum2=$(/usr/bin/cat /boot/config/plugins/&name;/&name;-&version;.md5)
-if [ "${sum1:0:32}" != "${sum2:0:32}" ]; then
-  echo "Wrong 'plugin' package md5 hash."
-  rm /boot/config/plugins/&name;/&name;-&version;.txz
-  rm /boot/config/plugins/&name;/&name;-&version;.md5
-  exit 1
-else
-  upgradepkg --install-new /boot/config/plugins/&name;/&name;-&version;.txz
-fi
-
 # Cleaning old source files
 find /boot/config/plugins/&name;/ -type f -iname "&name;*.txz" ! -iname "*&version;*" -delete
 find /boot/config/plugins/&name;/ -type f -iname "&name;*.md5" ! -iname "*&version;*" -delete
@@ -63,8 +45,30 @@ echo ""
 </INLINE>
 </FILE>
 
+<!-- 
+SOURCE PACKAGE 
+-->
+<FILE Name="&source;.txz" Run="upgradepkg --install-new --reinstall">
+<URL>&gitURL;/archive/&name;-&version;.txz</URL>
+</FILE>
+
 <!--
-The 'remove' script.
+POST-INSTALL SCRIPT
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been installed."
+echo " Copyright 2019, SasquatchSecurity"
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!--
+REMOVE SCRIPT
 -->
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
