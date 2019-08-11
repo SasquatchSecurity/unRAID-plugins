@@ -34,14 +34,6 @@ PRE-INSTALL SCRIPT
 # Cleaning old source files
 find /boot/config/plugins/&name;/ -type f -iname "&name;*.txz" ! -iname "*&version;*" -delete
 find /boot/config/plugins/&name;/ -type f -iname "&name;*.md5" ! -iname "*&version;*" -delete
-
-echo ""
-echo "-----------------------------------------------------------"
-echo " &name; has been installed."
-echo " Copyright 2019, SasquatchSecurity"
-echo " Version: &version;"
-echo "-----------------------------------------------------------"
-echo ""
 </INLINE>
 </FILE>
 
